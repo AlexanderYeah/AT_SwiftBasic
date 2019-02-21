@@ -1,0 +1,155 @@
+import UIKit
+
+var str = "Hello, playground"
+
+// 1 let 声明常量 var 声明变量
+let name = "alex"
+var age = 15
+
+// 2 类型标注 表示此变量可以存储string 类型的值
+// ？表示声明的时候不赋值 否则的话必须赋值
+// 会报错: variables currently must have an initial value when entered at the top level of the REPL
+var whichClass: String?
+
+whichClass = "sdada"
+
+
+// 3 整数
+// Swift 提供了8，16，32和64位的有符号和无符号整数类型
+let a1 = UInt8.min // 获取无符号8位的最小值 为0
+let a2 = UInt8.max // 获取无符号8位的最大值 为255
+
+// Int 整数类型 在32位平台上，Int 和 Int32 长度相同。 在64位平台上，Int 和 Int64 长度相同。
+// UInt 无符号类型 在32位平台上，UInt 和 UInt32 长度相同。在64位平台上，UInt 和 UInt64 长度相同。
+
+// 4 浮点数
+// Double精确度很高，至少有15位数字，而Float只有6位数字。选择哪个类型取决于你的代码需要处理的值的范围，在两种类型都匹配的情况下，将优先选择 Double。
+
+
+// 5 类型推断 和 类型安全
+
+// Swift 是一个类型安全（type safe）的语言。类型安全的语言可以让你清楚地知道代码要处理的值的类型。如果你的代码需要一个String，你绝对不可能不小心传进去一个Int。
+
+// 由于 Swift 是类型安全的，所以它会在编译你的代码时进行类型检查（type checks），并把不匹配的类型标记为错误。这可以让你在开发的时候尽早发现并修复错误。
+
+// 当你要处理不同类型的值时，类型检查可以帮你避免错误。然而，这并不是说你每次声明常量和变量的时候都需要显式指定类型。如果你没有显式指定类型，Swift 会使用类型推断（type inference）来选择合适的类型。有了类型推断，编译器可以在编译代码的时候自动推断出表达式的类型。原理很简单，只要检查你赋的值即可。
+
+
+
+let  price = 50 // 会自动推断出类型为int
+let  pi = 3.1415926 // 指定推断为double
+
+
+
+// 6 数值型字面量
+//一个十进制数，没有前缀
+//一个二进制数，前缀是0b
+//一个八进制数，前缀是0o
+//一个十六进制数，前缀是0x
+
+let decimalInteger = 17    // 十进制
+let binaryInteger = 0b10001       // 二进制的17
+let octalInteger = 0o21           // 八进制的17
+let hexadecimalInteger = 0x11     // 十六进制的17
+
+
+// 7 数据类型的转换 两个不同类型的数据进行相加 必须进行类型的转换
+let b1 = 0.123;
+let b2 = 4;
+// Int(b1) 直接省略为0
+let b3 =  b1 + Double(b2);
+
+
+// 8 类型别名 (type aliases）就是给现有类型定义另一个名字
+typealias SKInt = UInt8;
+// 打印出255
+print(SKInt.max);
+
+
+// 9 BOOL  布尔值
+
+let isLeapYear = true;
+
+print(isLeapYear ? "TRUE":"FALSE");
+
+
+// 10 元组
+// 元组把多个值复合成一个值，元组内的值可以是任意类型，并不要求是任意类型
+// 一个类型为（int,String）的元组
+let warnMsg = (404,"NOTFOUND");
+print(warnMsg);
+
+// 11 可选类型 Optional  来处理值可能确实缺失的情况
+let c1 = "hello";
+// Swift 的 Int 类型有一种构造器，作用是将一个 String 值转换成一个 Int 值。然而，并不是所有的字符串都可以转换成一个整数。字符串 "123" 可以被转换成数字 123 ，但是字符串 "hello, world" 不行。
+// 因为该构造器可能会失败，所以它返回一个可选类型（optional）Int，而不是一个 Int。一个可选的 Int 被写作  Int? 而不是 Int。问号暗示包含的值是可选类型，也就是说可能包含 Int 值也可能不包含值。（不能包含其他任何值比如 Bool 值或者 String 值。只能是 Int 或者什么都没有。）
+let c2 = Int(c1);
+// 12 你可以给可选变量赋值为nil来表示它没有值：
+// 包含一个可选的值404 或者什么都没有
+var serverCode : Int? = 404;
+serverCode = nil;
+print(serverCode as Any);
+
+// Swift 的 nil 和 Objective-C 中的 nil 并不一样。在 Objective-C 中，nil 是一个指向不存在对象的指针。在 Swift 中，nil 不是指针——它是一个确定的值，用来表示值缺失。任何类型的可选状态都可以被设置为 nil，不只是对象类型。
+
+// 13 可选绑定
+let targetCode = "hello"
+// 可选绑定，如果构造器转换的值是包含一个值的 则创建一个新的常量 将值赋值给新的常量
+if let resCode = Int(targetCode){
+    print(resCode);
+}else{
+    print("NOT A VALUE");
+}
+
+// 14 隐式解析可选类型
+let helloMsg:String? = "hello";
+// 用感叹号来获取值
+print(helloMsg!);
+
+// 声明的时候如果用感叹号确定有值
+let helloMsg2:String! = "hello two";
+// 取值的时候不用！
+print(helloMsg2);
+
+// 15 断言
+let my_age = -2;
+// 当表达式为负的时候 程序会断到这里
+//assert(my_age >= 0, "my_age cannot be less than zero")
+
+
+// 16 当一个条件可能为false的时候，但是继续执行代码需要条件必须是true的时候，需要使用先决条件
+precondition(my_age < 0, "Index must be greater than zero");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
