@@ -1,0 +1,222 @@
+import UIKit
+
+var str = "Hello, playground"
+
+// 1 协议
+// 类 和 结构体 和 枚举可以声明遵守某一个协议，并且提供该协议所遵守的属性和方法
+// 格式如下
+//protocol 协议名{
+//    // 协议内容
+//}
+
+
+// 2 协议可以要求其遵守者实现某些方法实例方法或者静态方法
+
+protocol Figure{
+    func onDraw();// 定义抽象绘制几何图形
+}
+
+// 定义一个类遵守协议
+class Circle : Figure{
+    func onDraw() {
+        print("我画了个圆形哈哈");
+    }
+}
+
+
+let c = Circle();
+c.onDraw();
+
+
+// 3 静态协议方法
+// 在协议中定义静态方法使用static 关键字
+protocol Account{
+    // 根据金额算出利息
+    static func GetInterestBt(amount:Double) -> Double;
+}
+
+
+class ChinaBank:Account{
+    
+    static func GetInterestBt(amount: Double) -> Double {
+        return amount * 500;
+    }
+}
+
+struct CityBank:Account{
+    static func GetInterestBt(amount: Double) -> Double {
+        return amount * 100;
+    }
+}
+
+
+ChinaBank.GetInterestBt(amount: 1);
+CityBank.GetInterestBt(amount: 1);
+
+
+// 3 变异方法
+// 在结构体和类中可以定义变异方法，在勒种没有这种方法，结构体和枚举类型中属性是不可以修改的，所以通过定义变方法，在变异方法中去修改这些属性，而类是引用类型，不需要变异方法就可以修改其本身的属性
+
+// 协议定义变异方法时候 方法前面添加mutating关键字
+// 类 结构体 类型都可以实现变异方法，类实现变异方法不需要加mutating 关键字,但是结构体和枚举实现变异方法的时候 需要添加关键字mutating
+
+protocol Editable{
+    mutating func edit();
+}
+
+class Person:Editable{
+    func edit() {
+        self.name = "ChangeAlex";
+        print("\(name)")
+    }
+    
+    var name = "Alex";
+}
+
+
+struct Dog:Editable
+{
+    mutating func edit() {
+        self.name = "ChangeTom";
+        print("\(name)");
+    }
+    
+    var name = "Tom";
+}
+
+
+var p = Person();
+p.edit();
+
+var d = Dog();
+d.edit();
+
+
+// 4 协议属性
+// 协议可以要求其遵守着实现某些指定属性,包括实例属性和静态属性
+
+protocol Student{
+    // 可以读写属性
+    var firstName:String{get set};
+    var secondName:String{get set};
+    // 只读属性
+    var fullName:String{get};
+}
+
+class StuA:Student{
+    
+    var firstName: String = "Alex";
+    var secondName: String = "Yeah";
+    var fullName: String{
+        get{
+            return firstName + secondName;
+        }
+    }
+
+}
+
+var s1 = StuA();
+s1.firstName = "KK";
+s1.secondName = "YY";
+print(s1.fullName);
+
+
+
+// 5 静态协议属性
+protocol AccountBank{
+    // 利率
+    static var InterestRate:Double{get};
+    // 金额
+    static func TotalInterest(amont:Double) -> Double;
+    
+}
+
+class AccountCity:AccountBank{
+    static func TotalInterest(amont: Double) -> Double {
+        return amont * InterestRate;
+    };
+    
+
+    static var InterestRate: Double{
+        return 500;
+    }
+}
+
+AccountCity.TotalInterest(amont: 100);
+
+// 6 把协议作为类型使用
+
+let s2:Student = StuA();
+let s3:Student = StuA();
+print(s2.fullName);
+print(s3.fullName);
+
+
+// 7 协议的继承
+
+// 第一个协议
+protocol Animal{
+    var name:String{get set};
+}
+
+// 第二个协议继承自第一个协议
+protocol Cat:Animal{
+    var age:Int{get set};
+}
+
+// 遵守协议
+class BlackCat:Cat{
+    var age: Int = 10;
+    var name: String = "Jerry"
+}
+
+print(BlackCat.init().age);
+
+
+// 8 协议的合成
+// 多个协议临时整合成一个协议 作为一个类型进行使用。即一个类同时遵守多个协议
+protocol PA{
+    var name:String{get set};
+}
+
+protocol PB{
+    var age:Int{set get}
+}
+
+// 同时遵守多个协议
+class PersonA:PA,PB{
+    
+    var name: String = "fromPA";
+    var age: Int = 525;
+    
+}
+// 协议的合成
+func showPersonAInfo(info:PA & PB ){
+    print("\(info.name)---\(info.age)");
+}
+
+
+
+let pa = PersonA.init();
+
+showPersonAInfo(info: pa);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
